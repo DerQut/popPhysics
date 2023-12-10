@@ -11,6 +11,8 @@ class PhysicsCircle(ui_elements.Ellipse):
         self.x_velocity = x_velocity
         self.y_velocity = y_velocity
 
+        self.radius = radius
+
         PhysicsCircle.all_physics_circles.append(self)
 
     def move(self):
@@ -18,10 +20,10 @@ class PhysicsCircle(ui_elements.Ellipse):
         self.x_cord = self.x_cord + self.x_velocity
         self.y_cord = self.y_cord + self.y_velocity
 
-        if self.x_cord < 0 or self.x_cord > self.surface.x_size:
+        if self.x_cord < 0 or self.x_cord+self.x_size > self.surface.x_size:
             self.x_velocity = self.x_velocity * -1
 
-        if self.y_cord < 0 or self.y_cord > self.surface.y_size:
+        if self.y_cord < 0 or self.y_cord+self.y_size > self.surface.y_size:
             self.y_velocity = self.y_velocity * -1
 
         self.rect_update()
