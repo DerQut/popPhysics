@@ -56,4 +56,3 @@ border = ui_elements.Rect(moving_surface, 0, 0, moving_surface.x_size, moving_su
 
 while len(physics.PhysicsCircle.all_physics_circles) < 5:
     new = physics.PhysicsCircle(moving_surface, random.randint(50, 750), random.randint(50, 510), RADIUS, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)), random.randint(1, MAX_SPEED), random.randint(1, MAX_SPEED))
-
