@@ -2,6 +2,7 @@ import pygame
 
 pygame.display.init()
 pygame.font.init()
+pygame.mixer.init()
 
 SF_Pro_Medium_24 = pygame.font.Font("assets/SFPRODISPLAYMEDIUM.OTF", 24)
 SF_Pro_Medium_20 = pygame.font.Font("assets/SFPRODISPLAYMEDIUM.OTF", 20)
@@ -25,3 +26,5 @@ blue = (37, 87, 226)
 dark_blue = (42, 58, 119)
 
 text_colour = (255, 255, 255)
+
+mario_theme = pygame.mixer.music.load("assets/mario.mp3")
