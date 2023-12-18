@@ -29,22 +29,29 @@ class PhysicsCircle(ui_elements.Ellipse):
         self.y_cord = self.y_cord + self.y_velocity
         self.frame.y_cord = self.frame.y_cord + self.y_velocity
 
-        if self.x_cord < 0 or self.x_cord+self.x_size > self.surface.x_size:
-            self.x_velocity = self.x_velocity * -1
-
-        if self.y_cord < 0 or self.y_cord+self.y_size > self.surface.y_size:
-            self.y_velocity = self.y_velocity * -1
-
         self.rect_update()
         self.frame.rect_update()
 
     def collide(self, obstacle):
 
-        self.x_velocity = -self.x_velocity
-        self.y_velocity = -self.y_velocity
+        v1 = (self.x_velocity, self.y_velocity)
+        v2 = (obstacle.x_velocity, obstacle.y_velocity)
 
-        obstacle.x_velocity = -obstacle.x_velocity
-        obstacle.y_velocity = -obstacle.y_velocity
+        self.x_velocity = v2[0]
+        self.y_velocity = v2[1]
+
+        obstacle.x_velocity = v1[0]
+        obstacle.y_velocity = v1[1]
+
+    def shove(self, x, y):
+        self.x_cord = self.x_cord + x
+        self.y_cord = self.y_cord + y
+
+        self.frame.x_cord = self.frame.x_cord + x
+        self.frame.y_cord = self.frame.y_cord + y
+
+        self.rect_update()
+        self.frame.rect_update()
 
     @classmethod
     def collide_check(cls):
@@ -55,9 +62,23 @@ class PhysicsCircle(ui_elements.Ellipse):
                         obj.collide(obstacle)
                         obj.has_collided = True
                         obstacle.has_collided = True
+                        while obstacle.radius + obj.radius >= math.sqrt((obstacle.x_cord - obj.x_cord) ** 2 + (obstacle.y_cord - obj.y_cord) ** 2):
+                            obj.move()
+                            obstacle.move()
+
+            if obj.y_cord < 0 or obj.y_cord+obj.y_size > obj.surface.y_size:
+                obj.y_velocity = -obj.y_velocity
+                while obj.y_cord < 0 or obj.y_cord+obj.y_size > obj.surface.y_size:
+                    obj.move()
+
+            if obj.x_cord < 0 or obj.x_cord+obj.x_size > obj.surface.x_size:
+                obj.x_velocity = -obj.x_velocity
+                while obj.x_cord < 0 or obj.x_cord+obj.x_size > obj.surface.x_size:
+                    obj.move()
 
     @classmethod
     def move_all(cls):
         for obj in cls.all_physics_circles:
-            obj.move()
+            if not obj.has_collided:
+                obj.move()
             obj.has_collided = False
