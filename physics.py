@@ -62,19 +62,31 @@ class PhysicsCircle(ui_elements.Ellipse):
                         obj.collide(obstacle)
                         obj.has_collided = True
                         obstacle.has_collided = True
+                        i=0
                         while obstacle.radius + obj.radius >= math.sqrt((obstacle.x_cord - obj.x_cord) ** 2 + (obstacle.y_cord - obj.y_cord) ** 2):
                             obj.move()
                             obstacle.move()
+                            i=i+1
+                            if i > 100:
+                                break
 
             if obj.y_cord < 0 or obj.y_cord+obj.y_size > obj.surface.y_size:
                 obj.y_velocity = -obj.y_velocity
+                i=0
                 while obj.y_cord < 0 or obj.y_cord+obj.y_size > obj.surface.y_size:
                     obj.move()
+                    i=i+1
+                    if i > 100:
+                        break
 
             if obj.x_cord < 0 or obj.x_cord+obj.x_size > obj.surface.x_size:
                 obj.x_velocity = -obj.x_velocity
+                i=0
                 while obj.x_cord < 0 or obj.x_cord+obj.x_size > obj.surface.x_size:
                     obj.move()
+                    i=i+1
+                    if i > 100:
+                        break
 
     @classmethod
     def move_all(cls):
